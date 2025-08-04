@@ -1,34 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import BalanceCard from './components/BalanceCard'
+import TransactionList from './components/TransactionList'
+import Backdrop from './components/Backdrop';
+import { setInitialTransactions } from './signals/transactionsSignal';
+import { currencySignal, currentBalance, fetchWalletBalance } from './signals/currentBalanceSignal';
+import { useSignals } from '@preact/signals-react/runtime';
+import { useEffect } from 'react';
+import DepositModal from './components/DepositModal';
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  useEffect(() => {
+    setInitialTransactions()
+    fetchWalletBalance()
+  }, [])
+  useSignals();
   return (
-    <>
-      <div className="flex justify-center gap-4">
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <>
+      <div className="border-1 border-zinc-400 rounded-2xl p-4 mx-4">
+        <Backdrop>
+          <DepositModal />
+        </Backdrop>
+        <div className="flex-row justify-between lg:gap-8 lg:flex">
+          <BalanceCard 
+            balance={currentBalance.value} 
+            currency={currencySignal.value} 
+            />
+          <TransactionList/>
+        </div>
       </div>
-      <h1 className="font-light bg-red-500">Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      </>
   )
 }
 
