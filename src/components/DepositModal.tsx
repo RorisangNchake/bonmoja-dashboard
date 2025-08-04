@@ -3,7 +3,7 @@ import Button from "./Button";
 import { isOpen } from "../signals/isOpenSignal";
 import { isTransactionListPending } from "../signals/transactionsSignal";
 import { useSignals } from "@preact/signals-react/runtime";
-import { amount, error submitAmount, updateAmount } from "../signals/modalSignal";
+import { amount, error, submitAmount, updateAmount } from "../signals/modalSignal";
 import { ChevronDown } from 'lucide-react';
 import { useState } from "react";
 
